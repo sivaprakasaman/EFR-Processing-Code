@@ -40,22 +40,72 @@ sq25_envresponse = sq25_NP+sq25_PO;
 Fs = 48828;
 
 %SAM:
-mag_SAM_NP = fft(SAM_envresponse);
+mag_SAM_envresponse = fft(SAM_envresponse);
 T = 1/Fs; %Sampling Period
 L = length(SAM_envresponse);
-P2 = abs(mag_SAM_NP/L);
-P1 = P2(1:L/2+1); 
+P2 = abs(mag_SAM_envresponse/L);
+P1_SAM = P2(1:L/2+1); 
 
 f = Fs*(0:(L/2))/L;
 
-plot(f,P1);
+%sq_50
+mag_sq50_envresponse = fft(sq50_envresponse);
+T = 1/Fs; %Sampling Period
+L = length(sq50_envresponse);
+P2 = abs(mag_sq50_envresponse/L);
+P1_sq50 = P2(1:L/2+1); 
+
+%sq_25
+mag_sq25_envresponse = fft(sq25_envresponse);
+T = 1/Fs; %Sampling Period
+L = length(sq25_envresponse);
+P2 = abs(mag_sq25_envresponse/L);
+P1_sq25 = P2(1:L/2+1); 
+
+
+plot(f,P1_SAM,f,P1_sq50,f,P1_sq25);
 ylim([0,0.01]);
+ylabel("Amplitude (uV?)");
+xlim([0,2000]);
+xlabel("Frequency (Hz)");
+legend("SAM","sq50","sq25");
+title("EFR Magnitudes")
+
+%% Same analysis but truncating first 0.1s and last 0.5s
+window = [0.1,1.3];
+
+SAM_trunc = SAM_envresponse(window(1)*Fs:window(2)*Fs);
+sq50_trunc = sq50_envresponse(window(1)*Fs:window(2)*Fs);
+sq_25_trunc = sq25_envresponse(window(1)*Fs:window(2)*Fs);
+
+mag_SAM_envresponse = fft(SAM_trunc);
+T = 1/Fs; %Sampling Period
+L = length(SAM_trunc);
+P2 = abs(mag_SAM_envresponse/L);
+P1_SAM = P2(1:L/2+1); 
+
+f = Fs*(0:(L/2))/L;
+
+mag_sq50_envresponse = fft(sq50_trunc);
+T = 1/Fs; %Sampling Period
+L = length(sq50_trunc);
+P2 = abs(mag_sq50_envresponse/L);
+P1_sq50 = P2(1:L/2+1); 
 
 
+mag_sq25_envresponse = fft(sq25_trunc);
+T = 1/Fs; %Sampling Period
+L = length(sq25_trunc);
+P2 = abs(mag_sq25_envresponse/L);
+P1_sq25 = P2(1:L/2+1); 
 
-
-
-
+plot(f,P1_SAM,f,P1_sq50,f,P1_sq25)
+ylim([0,0.01]);
+ylabel("Amplitude (uV?)");
+xlim([0,2000]);
+xlabel("Frequency (Hz)");
+legend("SAM","sq50","sq25");
+title("EFR Magnitudes")
 %% for fun
 player = audioplayer([SAM_NP,SAM_NP],Fs);
 player.play();
