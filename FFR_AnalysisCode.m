@@ -103,11 +103,33 @@ P1_sq25 = P2(1:L/2+1);
 
 fig2 = figure;
 plot(f,P1_SAM,f,P1_sq50,f,P1_sq25)
-ylim([0,1]);
-ylabel("Amplitude (uV?)");
 xlim([0,2000]);
+ylim([0,1]);
+
+ylabel("Amplitude (uV?)");
+
 xlabel("Frequency (Hz)");
 legend("SAM","sq50","sq25");
+title("EFR Magnitudes with truncated window")
+
+
+figure;
+
+hold on;
+findpeaks(P1_SAM,f,'MinPeakHeight',0.015,'MinPeakDistance',80)
+findpeaks(P1_sq50,f,'MinPeakHeight',0.015,'MinPeakDistance',80)
+findpeaks(P1_sq25,f,'MinPeakHeight',0.015,'MinPeakDistance',80)
+xlim([0,2000]);
+ylim([0,1]);
+xlim([0,2000]);
+ylim([0,1]);
+
+ylabel("Amplitude (uV?)");
+
+xlabel("Frequency (Hz)");
+legend("SAM","SAM Pks","sq50","sq50 pks","sq25","sq25 pks");
+
+
 title("EFR Magnitudes with truncated window")
 
 %% for fun
