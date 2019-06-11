@@ -23,19 +23,24 @@ clear ans;
 
 %SAM 
 SAM_NP = cell2mat(SAM_data.AD_Data.AD_Avg_NP_V);
+SAM_NP = SAM_NP-mean(SAM_NP);
 SAM_PO = cell2mat(SAM_data.AD_Data.AD_Avg_PO_V);
+SAM_PO = SAM_PO-mean(SAM_PO);
 SAM_envresponse = (SAM_NP+SAM_PO)/SAM_data.AD_Data.Gain;
 
 %Sq50
 sq50_NP = cell2mat(sq_50_data.AD_Data.AD_Avg_NP_V);
+sq50_NP = sq50_NP-mean(sq50_NP);
 sq50_PO = cell2mat(sq_50_data.AD_Data.AD_Avg_PO_V);
+sq50_PO = sq50_PO-mean(sq50_PO);
 sq50_envresponse = (sq50_NP+sq50_PO)/sq_50_data.AD_Data.Gain;
 
 %Sq25
 sq25_NP = cell2mat(sq_25_data.AD_Data.AD_Avg_NP_V);
+sq25_NP = sq25_NP-mean(sq25_NP);
 sq25_PO = cell2mat(sq_25_data.AD_Data.AD_Avg_PO_V);
+sq25_PO = sq25_PO-mean(sq25_PO);
 sq25_envresponse = (sq25_NP+sq25_PO)/sq_25_data.AD_Data.Gain;
-
 
 %% Begin Analysis
 Fs = 48828;
@@ -112,9 +117,10 @@ xlabel("Frequency (Hz)");
 legend("SAM","sq50","sq25");
 title("EFR Magnitudes with truncated window")
 
-
+%% Peak detection
 figure;
 
+subplot(2,1,1);
 hold on;
 findpeaks(P1_SAM,f,'MinPeakHeight',0.015,'MinPeakDistance',80)
 findpeaks(P1_sq50,f,'MinPeakHeight',0.015,'MinPeakDistance',80)
@@ -124,13 +130,31 @@ ylim([0,1]);
 xlim([0,2000]);
 ylim([0,1]);
 
-ylabel("Amplitude (uV?)");
-
+ylabel("Amplitude (uV)");
 xlabel("Frequency (Hz)");
 legend("SAM","SAM Pks","sq50","sq50 pks","sq25","sq25 pks");
-
-
 title("EFR Magnitudes with truncated window")
+
+hold off;
+%% EFR Summation
+[SAM_PKS, SAM_LOCS] = findpeaks(P1_SAM,f,'MinPeakHeight',0.015,'MinPeakDistance',80);
+[sq50_PKS, sq50_LOCS] = findpeaks(P1_sq50,f,'MinPeakHeight',0.015,'MinPeakDistance',80);
+[sq25_PKS, sq25_LOCS] = findpeaks(P1_sq25,f,'MinPeakHeight',0.015,'MinPeakDistance',80);
+
+SAM_PKS = SAM_PKS.*(SAM_LOCS>99);
+sq50_PKS = sq50_PKS.*(sq50_LOCS>99);
+sq25_PKS = sq25_PKS.*(sq25_LOCS>99);
+
+SAM_SUM = cumsum(SAM_PKS);
+sq50_SUM = cumsum(sq50_PKS);
+sq25_SUM = cumsum(sq25_PKS);
+
+subplot(2,1,2)
+plot(SAM_LOCS,SAM_SUM,sq50_LOCS,sq50_SUM,sq25_LOCS,sq25_SUM);
+legend('SAM','SQ50','SQ25');
+xlabel('Frequency')
+ylabel('Cummulative Sum of Harmonic Magnitudes')
+xlim([0,2000]);
 
 %% for fun
 player = audioplayer([SAM_NP,SAM_NP],Fs);
