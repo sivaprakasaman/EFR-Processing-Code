@@ -117,6 +117,11 @@ xlabel("Frequency (Hz)");
 legend("SAM","sq50","sq25");
 title("EFR Magnitudes with truncated window")
 
+%% Noise Floor Removal
+%SAM trials
+% w_n = rand([length(SAM)
+% w_m = 
+
 %% Peak detection
 figure;
 
