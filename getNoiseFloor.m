@@ -10,8 +10,8 @@ function [floorx,floory] = getNoiseFloor(pos_all,neg_all,N,I,K,Fs)
     %preallocating for speed lol
     nsum = zeros(I,len_f);
     kfloor = zeros(K,len_f);
-    fft_pos_r = zeros(N,L/2+1);
-    fft_neg_r = zeros(N,L/2+1);
+    fft_pos_r = zeros(N,floor(L/2)+1);
+    fft_neg_r = zeros(N,floor(L/2)+1);
     
     %Calculate spectrograms for +/-
     
@@ -27,7 +27,7 @@ function [floorx,floory] = getNoiseFloor(pos_all,neg_all,N,I,K,Fs)
                 fft_pos = fft(pos);
                 T = 1/Fs; %Sampling Period
                 fft_pos_r_twoside = abs((fft_pos/L)).*exp(j.*w_n); %twosided FFT
-                fft_pos_r(n,:) = fft_pos_r_twoside(1:L/2+1); %onesided FFT
+                fft_pos_r(n,:) = fft_pos_r_twoside(1:floor(L/2)+1); %onesided FFT
                 %make sure you check sidedeness and account for it!
                 
                 %neg
@@ -36,10 +36,10 @@ function [floorx,floory] = getNoiseFloor(pos_all,neg_all,N,I,K,Fs)
                 T = 1/Fs; %Sampling Period
                 L = length(neg);
                 fft_neg_r_twoside = abs((fft_neg/L)).*exp(j.*w_m); %twosided FFT
-                fft_neg_r(n,:) = fft_neg_r_twoside(1:L/2+1); %onesided FFT          
+                fft_neg_r(n,:) = fft_neg_r_twoside(1:floor(L/2)+1); %onesided FFT          
             end
             i
-            nsum(i,:) = 20*log10(abs((sum(fft_pos_r)+sum(fft_neg_r))/N)); %removed taking magnitude of a sum of magnitudes?*
+            nsum(i,:) = (abs((sum(fft_pos_r)+sum(fft_neg_r))/N)); %removed taking magnitude of a sum of magnitudes?*
         end
         kfloor(k,:) = sum(nsum)/I;
         k
