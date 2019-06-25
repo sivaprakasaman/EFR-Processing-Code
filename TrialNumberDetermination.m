@@ -18,9 +18,9 @@ close all;
 
 %% Parameters:
 Fs0 = 48828.125;%sampling rate in
-Fs = 15e3; %resample to
+Fs = round(Fs0); %resample to
 
-numtrials = 200; %Number of trials to pull per polarity
+numtrials = 500; %Number of trials to pull per polarity
 window = [0.1,1.3];
 gain = 20e3; %make this parametric at some point
 
@@ -80,20 +80,27 @@ end
 %% Calculate the mean of all trials
 %Setting this up in a way that should work well with the above logic 
 
-%Here's the problem
-sum_SAM = zeros([1,length(SAM_pos{i})]);
+pos_sum = zeros([1,length(SAM_pos{1})]);
+neg_sum = zeros([1,length(SAM_pos{1})]);
 
+%Compute the averages of pos and neg polarities, remove DC, and get a sum
 for i = 1:numtrials
-    temp = SAM_pos{i} + SAM_neg{i};
-    sum_SAM = sum_SAM + temp;
+    pos_sum = SAM_pos{i} + pos_sum;
 end 
 
-mean_SAM = sum_SAM/(2*numtrials);
-mean_SAM = mean_SAM - mean(mean_SAM);
+mean_pos = (pos_sum-mean(pos_sum))/numtrials;
+
+for i = 1:numtrials
+    neg_sum = SAM_neg{i} + neg_sum;
+end 
+
+mean_neg = (neg_sum-mean(neg_sum))/numtrials;
+
+sum_SAM = mean_pos+mean_neg;
 %% FFT
-mag_SAM_envresponse = fft(mean_SAM);
+mag_SAM_envresponse = fft(sum_SAM*1e6);
 T = 1/Fs; %Sampling Period
-L = length(mean_SAM);
+L = length(sum_SAM);
 P2 = (abs(mag_SAM_envresponse/L));
 P1_SAM = P2(1:L/2+1); 
 
@@ -103,12 +110,5 @@ plot(f,P1_SAM)
 
 %% Calculate Noise Floor
 
-[floorx, floory] = getNoiseFloor(SAM_pos,SAM_neg,numtrials,100,10,Fs);
-
-% %% Random Sampling and Pairing Polarities
-% 
-% for i = 1:numtrials
-%     [spectrox(i),spectroy(i),harmsum,];
-%     
-% end
+%[floorx, floory] = getNoiseFloor(SAM_pos,SAM_neg,numtrials,100,10,Fs);
 
