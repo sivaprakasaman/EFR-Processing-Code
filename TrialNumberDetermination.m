@@ -4,7 +4,7 @@
 %Similar lines to FFR_AnalysisCode
 
 %List of things that I still need to do:
-%   -Check gain value
+%   -Check gain value +
 %   -Randomly pool a set of n trials 
 %   -Calculate the mean response
 %   -FFT
@@ -17,10 +17,10 @@ clear all;
 close all;
 
 %% Parameters:
-Fs0 = 48828.125;%sampling rate in
-Fs = round(Fs0); %resample to
+Fs0 = round(48828.125);%sampling rate in
+Fs = 4e3; %resample to
 
-numtrials = 500; %Number of trials to pull per polarity
+iterations = 100;
 window = [0.1,1.3];
 gain = 20e3; %make this parametric at some point
 
@@ -44,71 +44,42 @@ sq50_tot = sq_50_data.data.AD_Data.AD_All_V;
 l_sq50 = length(sq50_tot)/2;
 
 cd ../
+%% Number of iterations
+
+%currently 1/5 of total trials
+
+numtrials = l_SAM/5; %Number of trials to pull per polarity
 
 %% Separate out the +/- polarities
+
 ind = 1;
 
 %Change numtrials to l_SAM/sq25/etc if pooling randomly!
-for i = 1:1:numtrials
+for i = 1:1:l_SAM
     %Pos 
-    temp = SAM_tot{ind}(window(1)*Fs:window(2)*Fs)/gain;
+    temp = SAM_tot{ind}(round(window(1)*Fs0):round(window(2)*Fs0))/gain;
     SAM_pos{i} = resample(temp,Fs,round(Fs0));
+    
     %Neg
-    temp2 = SAM_tot{ind+1}(window(1)*Fs:window(2)*Fs)/gain;
+    temp2 = SAM_tot{ind+1}(round(window(1)*Fs0):round(window(2)*Fs0))/gain;
     SAM_neg{i} = resample(temp2,Fs,round(Fs0));
     
     ind = ind+2;
 end
 
-%% Separate all the odds and evens, and pool a random n from each
+%% Calculate and average the mean raw Spectral Magnitudes 
 
-%since already separated, just need to pick a random set of n trials from
-%1-length of total #
+for i = 1:iterations
+    
+    [f,SAM_MRS(i,:)] = getSpectMag(SAM_pos,SAM_neg,Fs,numtrials);
 
-%THIS WON"T WORK UNLESS ABOVE SECTION IMAX is changed! 
-% r_odds = randi([1,l_SAM],[numtrials,1]);
-% r_evens = randi([1,l_SAM],[numtrials,1]);
-% 
-% for i = 1:1:numtrials
-%     
-%     SAM_pos_r{i} = SAM_pos{r_odds(i)};
-%     SAM_neg_r{i} = SAM_{r_even(i)};
-%     
-% end
+end
 
+SAM_MeanDFT = mean(SAM_MRS);
 
-%% Calculate the mean of all trials
-%Setting this up in a way that should work well with the above logic 
-
-pos_sum = zeros([1,length(SAM_pos{1})]);
-neg_sum = zeros([1,length(SAM_pos{1})]);
-
-%Compute the averages of pos and neg polarities, remove DC, and get a sum
-for i = 1:numtrials
-    pos_sum = SAM_pos{i} + pos_sum;
-end 
-
-mean_pos = (pos_sum-mean(pos_sum))/numtrials;
-
-for i = 1:numtrials
-    neg_sum = SAM_neg{i} + neg_sum;
-end 
-
-mean_neg = (neg_sum-mean(neg_sum))/numtrials;
-
-sum_SAM = mean_pos+mean_neg;
-%% FFT
-mag_SAM_envresponse = fft(sum_SAM*1e6);
-T = 1/Fs; %Sampling Period
-L = length(sum_SAM);
-P2 = (abs(mag_SAM_envresponse/L));
-P1_SAM = P2(1:L/2+1); 
-
-f = Fs*(0:(L/2))/L;
-
-plot(f,P1_SAM)
+plot(f,SAM_MeanDFT)
 
 %% Calculate Noise Floor
 
-%[floorx, floory] = getNoiseFloor(SAM_pos,SAM_neg,numtrials,100,10,Fs);
+[floorx, floory] = getNoiseFloor(SAM_pos,SAM_neg,numtrials,100,10,Fs);
 
