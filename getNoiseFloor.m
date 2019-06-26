@@ -26,7 +26,7 @@ function [floorx,floory] = getNoiseFloor(pos_all,neg_all,N,I,K,Fs)
                 pos = pos_all{n};
                 fft_pos = fft(pos*1e6);
                 fft_pos_r_twoside = abs((fft_pos/L)).*exp(j.*w_n); %twosided FFT
-                fft_pos_r(n,:) = fft_pos_r_twoside(1:floor(L/2)+1); %onesided FFT
+                fft_pos_r(n,:) = fft_pos_r_twoside(n,1:floor(L/2)+1); %onesided FFT
                 %make sure you check sidedeness and account for it!
                 
                 %neg
@@ -34,10 +34,10 @@ function [floorx,floory] = getNoiseFloor(pos_all,neg_all,N,I,K,Fs)
                 fft_neg = fft(neg*1e6);
                 L = length(neg);
                 fft_neg_r_twoside = abs((fft_neg/L)).*exp(j.*w_m); %twosided FFT
-                fft_neg_r(n,:) = fft_neg_r_twoside(1:floor(L/2)+1); %onesided FFT          
+                fft_neg_r(n,:) = fft_neg_r_twoside(n,1:floor(L/2)+1); %onesided FFT          
             end
             i
-            nsum(i,:) = abs((sum(fft_pos_r)+sum(fft_neg_r))/N); %removed taking magnitude of a sum of magnitudes?*
+            nsum(i,:) = 20*log10(abs((sum(fft_pos_r)+sum(fft_neg_r))/N)); %removed taking magnitude of a sum of magnitudes?*
         end
         kfloor(k,:) = sum(nsum)/I;
         k
