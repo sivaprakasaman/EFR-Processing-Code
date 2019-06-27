@@ -1,4 +1,4 @@
-function [harmsum] = getSum(f,DFT,harmonics)
+function [harmsum,PKS,LOCS] = getSum(f,DFT,harmonics)
 %getSum Outputs the sum of first 5 harmonics of a given .
 %deviation. Also makes a plot.
 %f = frequency vector
@@ -7,7 +7,11 @@ function [harmsum] = getSum(f,DFT,harmonics)
 
 [PKS, LOCS] = findpeaks(DFT,f,'MinPeakHeight',11,'MinPeakDistance',80);
 PKS = PKS.*(LOCS>99);
-harmsum = sum(PKS(1:harmonics));
+LOCS = LOCS(1:harmonics);
+
+harmsum = cumsum(PKS(1:harmonics));
+PKS = PKS(1:harmonics);
+harmsum = harmsum(1:harmonics);
 
 %plot
 %findpeaks(DFT,f,'MinPeakHeight',11,'MinPeakDistance',80)

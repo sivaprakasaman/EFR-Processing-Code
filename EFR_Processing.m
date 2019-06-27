@@ -17,7 +17,7 @@ K_MRS = 100;
 K_NF = 10;
 I_NF = 100;
 
-harmonics = 6;
+harmonics = 13;
 %% Load Files:
 subject = "Q379";
 
@@ -43,21 +43,38 @@ fprintf('Files Loaded \n')
 [sq25_f,sq25_DFT] = getDFT(sq25_tot,window,Fs,Fs0,gain,K_MRS,K_NF,I_NF);
 [sq50_f,sq50_DFT] = getDFT(sq50_tot,window,Fs,Fs0,gain,K_MRS,K_NF,I_NF);
 
+
+
+%% Plotting 
+
 figure;
+subplot(2,1,1)
 hold on;
 plot(SAM_f,SAM_DFT)
 plot(sq25_f,sq25_DFT)
-plot(sq50_f,sq50_DFT)
+plot(sq50_f,sq50_DFT,'g')
 title('DFT with Noise Floor removed')
 ylabel('SNR (dB)/Magnitude (dB, arbitrary)')
 xlabel('Frequency')
 xlim([0,2e3])
-ylim([-60,max(SAM_MeanDFT-floory)+5])
-legend('Raw Spectrum','Noise Floor','Adjusted')
+ylim([0,max(SAM_DFT)+5])
+
+%Get peaks and sum them, look at crossings
+
+[SAM_SUM,SAM_PKS,SAM_LOCS] = getSum(SAM_f,SAM_DFT,harmonics);
+[SQ25_SUM,SQ25_PKS,SQ25_LOCS] = getSum(sq25_f,sq25_DFT,harmonics);
+[SQ50_SUM,SQ50_PKS,SQ50_LOCS] = getSum(sq50_f,sq50_DFT,harmonics);
+
+plot(SAM_LOCS,SAM_PKS,'bo',SQ25_LOCS,SQ25_PKS,'ro',SQ50_LOCS,SQ50_PKS,'go')
+
+legend('SAM','SQ25','SQ50','SAM','SQ25','SQ50')
 
 hold off;
-%% Get peaks and sum them
 
-[SAM_SUM] = getSum(SAM_f,SAM_DFT,harmonics);
 
+subplot(2,1,2)
+plot(SAM_LOCS,SAM_SUM,SQ25_LOCS,SQ25_SUM,SQ50_LOCS,SQ50_SUM,'g')
+xlabel('Frequency')
+ylabel('Cummulative Sum of Harmonic Magnitudes')
+xlim([0,2000]);
 
