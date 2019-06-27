@@ -1,12 +1,11 @@
 function [f,P1] = getSpectMag(pos,neg,Fs,numtrials)
 %Returns the mean raw spectral magnitude in dB
 % Example:
-%all_trials = converted pfile
+% pos = all positive trials
+% neg = all negative trials
 % Fs0 = 48828.125; %sampling rate in
-% Fs = 15e3; %resample to
+% Fs = 15e3 (example); %resample to
 % numtrials = 100; %Number of trials to pull per polarity
-% window = [0.1,1.3];
-% gain = 20e3;
 
 %% Parameters
 len = length(pos); %number of trials collected/polarity

@@ -86,8 +86,6 @@ plot(f,SAM_MeanDFT)
 
 %% Calculate Noise Floor
 
-%Still need to have it pool from a random sample!
-
 [floorx, floory] = getNoiseFloor(SAM_pos,SAM_neg,numtrials,100,10,Fs);
 
 %% Plotting 
