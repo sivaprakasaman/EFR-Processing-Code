@@ -1,8 +1,0 @@
-function [outputArg1,outputArg2] = getSum(inputArg1,inputArg2)
-%getSum Outputs the mean sum of first 5 harmonics and the standard
-%deviation. Also makes a plot 
-%   Detailed explanation goes here
-outputArg1 = inputArg1;
-outputArg2 = inputArg2;
-end
-

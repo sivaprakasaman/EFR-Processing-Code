@@ -44,6 +44,8 @@ sq50_tot = sq_50_data.data.AD_Data.AD_All_V;
 l_sq50 = length(sq50_tot)/2;
 
 cd ../
+
+fprintf('Files Loaded \n')
 %% Number of iterations
 
 %currently 1/5 of total trials
@@ -67,12 +69,15 @@ for i = 1:1:l_SAM
     ind = ind+2;
 end
 
+fprintf('+/- Polarities Separated\n')
+
 %% Calculate and average the mean raw Spectral Magnitudes 
 
 for i = 1:iterations
     
     [f,SAM_MRS(i,:)] = getSpectMag(SAM_pos,SAM_neg,Fs,numtrials);
-
+    fprintf('(Spectrum) Iteration %d of %d complete.\n',i,iterations )
+    
 end
 
 SAM_MeanDFT = mean(SAM_MRS);
@@ -83,5 +88,19 @@ plot(f,SAM_MeanDFT)
 
 %Still need to have it pool from a random sample!
 
-[floorx, floory] = getNoiseFloor(SAM_pos,SAM_neg,numtrials,100,2,Fs);
+[floorx, floory] = getNoiseFloor(SAM_pos,SAM_neg,numtrials,100,10,Fs);
 
+%% Plotting 
+figure;
+hold on
+plot(floorx,SAM_MeanDFT)
+plot(floorx,floory)
+plot(floorx,SAM_MeanDFT-floory)
+title('DFT with Noise Floor removed')
+ylabel('SNR (dB)/Magnitude (dB, arbitrary)')
+xlabel('Frequency')
+xlim([0,2e3])
+ylim([-60,max(SAM_MeanDFT-floory)+5])
+
+legend('Raw Spectrum','Noise Floor','Adjusted')
+hold off
