@@ -35,6 +35,7 @@ end
 
 MeanDFT = mean(MRS);
 
+%plot(f,MeanDFT)
 
 %% Calculate Noise Floor
 

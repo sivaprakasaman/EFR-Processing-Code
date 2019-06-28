@@ -7,9 +7,9 @@ close all;
 
 %% Parameters:
 
-chins = 5; %simulated number of "chins"
+chins = 2; %simulated number of "chins"
 %trials = 50;
-t_array = [10,30,50,100,150,200];%number of trials conducted/condition/chin
+t_array = [20];%number of trials conducted/condition/chin. Make this an array if you want to test multiple N
 
 Fs0 = round(48828.125);%sampling rate in
 Fs = 4e3; %resample to
@@ -83,19 +83,19 @@ for ta = 1:length(t_array)
         [sq25_f,sq25_DFT] = getDFT(sq25_tot,trials,window,Fs,Fs0,gain,K_MRS,K_NF,I_NF);
         [sq50_f,sq50_DFT] = getDFT(sq50_tot,trials,window,Fs,Fs0,gain,K_MRS,K_NF,I_NF);
         
-        %% Plotting
+        %% Plotting & Summation
         
-        % figure;
-        % subplot(2,1,1)
-        % hold on;
-        % plot(SAM_f,SAM_DFT)
-        % plot(sq25_f,sq25_DFT)
-        % plot(sq50_f,sq50_DFT,'g')
-        % title('DFT with Noise Floor removed')
-        % ylabel('SNR (dB)/Magnitude (dB, arbitrary)')
-        % xlabel('Frequency')
-        % xlim([0,2e3])
-        % ylim([0,max(SAM_DFT)+5])
+%         figure;
+%         subplot(2,1,1)
+%         hold on;
+%         plot(SAM_f,SAM_DFT)
+%         plot(sq25_f,sq25_DFT)
+%         plot(sq50_f,sq50_DFT,'g')
+%         title('DFT with Noise Floor removed')
+%         ylabel('SNR (dB)/Magnitude (dB, arbitrary)')
+%         xlabel('Frequency')
+%         xlim([0,2e3])
+%         ylim([0,max(SAM_DFT)+5])
         
         %Get peaks and sum them, look at crossings
         
@@ -119,27 +119,26 @@ for ta = 1:length(t_array)
     
 end
 
-%SAM:
+%% Saving Data
 
 SAM_all_means = [t_array',SAM_MAG_MEAN',SAM_MAG_std'];
 SQ25_all_means = [t_array',SQ25_MAG_MEAN',SQ25_MAG_std'];
 SQ50_all_means = [t_array',SQ50_MAG_MEAN',SQ50_MAG_std'];
-
 
 save('SAM_all_m.mat','SAM_all_means')
 save('SQ25_all_m.mat','SQ25_all_means')
 save('SQ50_all_m.mat','SQ50_all_means')
 
 % plot(SAM_LOCS,SAM_PKS,'bo',SQ25_LOCS,SQ25_PKS,'ro',SQ50_LOCS,SQ50_PKS,'go')
-
+% 
 % legend('SAM','SQ25','SQ50','SAM','SQ25','SQ50')
-%
+% 
 % hold off;
-%
+% 
 % subplot(2,1,2)
 % plot(SAM_LOCS,SAM_SUM,SQ25_LOCS,SQ25_SUM,SQ50_LOCS,SQ50_SUM,'g')
 % xlabel('Frequency')
 % ylabel('Cummulative Sum of Harmonic Magnitudes')
 % xlim([0,2000]);
-%
-%
+
+
