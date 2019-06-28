@@ -5,7 +5,7 @@ function [harmsum,PKS,LOCS] = getSum(f,DFT,harmonics)
 %DFT = DFT.
 %harmonics = number of harmonics to pull 
 
-[PKS, LOCS] = findpeaks(DFT,f,'MinPeakHeight',11,'MinPeakDistance',80);
+[PKS, LOCS] = findpeaks(DFT,f,'MinPeakHeight',5,'MinPeakDistance',80);
 PKS = PKS.*(LOCS>99);
 LOCS = LOCS(1:harmonics);
 

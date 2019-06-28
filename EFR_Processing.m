@@ -6,6 +6,10 @@ clear all;
 close all;
 
 %% Parameters:
+
+chins = 5; %simulated number of "chins"
+trials = 20; %number of trials conducted/condition/chin 
+
 Fs0 = round(48828.125);%sampling rate in
 Fs = 4e3; %resample to
 
@@ -17,7 +21,7 @@ K_MRS = 100;
 K_NF = 10;
 I_NF = 100;
 
-harmonics = 13;
+harmonics = 6;
 %% Load Files:
 subject = "Q379";
 
@@ -28,22 +32,51 @@ SAM_data = load('p0002_FFR_SNRenvSAM_atn25.mat');
 sq_25_data = load('p0003_FFR_SNRenvsq_25_atn25.mat');
 sq_50_data =load('p0004_FFR_SNRenvsq_50_atn25.mat');
 
-SAM_tot = SAM_data.data.AD_Data.AD_All_V;
+SAM_tot_full = SAM_data.data.AD_Data.AD_All_V;
 
-sq25_tot = sq_25_data.data.AD_Data.AD_All_V;
+sq25_tot_full = sq_25_data.data.AD_Data.AD_All_V;
 
-sq50_tot = sq_50_data.data.AD_Data.AD_All_V;
+sq50_tot_full = sq_50_data.data.AD_Data.AD_All_V;
 
 cd ../
 
 fprintf('Files Loaded \n')
+
+%% Select random dataset of certain number 
+
+x = 1:length(SAM_tot_full);
+odv = x(rem(x,2)==1);  
+evv = x(rem(x,2)==0);  
+SAM_r_odds = odv(randi(length(odv),1,trials))';
+SAM_r_evens = evv(randi(length(evv),1,trials))';
+
+%Account for different number of collected trials
+x = 1:length(sq25_tot_full);
+odv = x(rem(x,2)==1);  
+evv = x(rem(x,2)==0);  
+r_odds = odv(randi(length(odv),2,trials))';
+r_evens = evv(randi(length(evv),2,trials))';
+
+
+for t = 1:2:trials
+    
+       %pos
+       SAM_tot{t} = SAM_tot_full{SAM_r_odds(t,1)};
+       sq25_tot{t} = sq25_tot_full{r_odds(t,1)};
+       sq50_tot{t} = sq50_tot_full{r_odds(t,2)};
+       
+       %neg
+       SAM_tot{t+1} = SAM_tot_full{SAM_r_evens(t,1)};
+       sq25_tot{t+1} = sq25_tot_full{r_evens(t,1)};
+       sq50_tot{t+1} = sq50_tot_full{r_evens(t,2)};
+    
+end
+
 %% Calculate the DFT for Responses
 
-[SAM_f,SAM_DFT] = getDFT(SAM_tot,window,Fs,Fs0,gain,K_MRS,K_NF,I_NF);
-[sq25_f,sq25_DFT] = getDFT(sq25_tot,window,Fs,Fs0,gain,K_MRS,K_NF,I_NF);
-[sq50_f,sq50_DFT] = getDFT(sq50_tot,window,Fs,Fs0,gain,K_MRS,K_NF,I_NF);
-
-
+[SAM_f,SAM_DFT] = getDFT(SAM_tot,trials,window,Fs,Fs0,gain,K_MRS,K_NF,I_NF);
+[sq25_f,sq25_DFT] = getDFT(sq25_tot,trials,window,Fs,Fs0,gain,K_MRS,K_NF,I_NF);
+[sq50_f,sq50_DFT] = getDFT(sq50_tot,trials,window,Fs,Fs0,gain,K_MRS,K_NF,I_NF);
 
 %% Plotting 
 
@@ -71,10 +104,10 @@ legend('SAM','SQ25','SQ50','SAM','SQ25','SQ50')
 
 hold off;
 
-
 subplot(2,1,2)
 plot(SAM_LOCS,SAM_SUM,SQ25_LOCS,SQ25_SUM,SQ50_LOCS,SQ50_SUM,'g')
 xlabel('Frequency')
 ylabel('Cummulative Sum of Harmonic Magnitudes')
 xlim([0,2000]);
+
 

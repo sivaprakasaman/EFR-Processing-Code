@@ -16,7 +16,6 @@ function [floorx,floory] = getNoiseFloor(pos_all,neg_all,N,I,K,Fs)
     %Calculate spectrograms for +/-
     
     for k = 1:K
-        tic;
         for i = 1:I
             
             %Draw N random trials/polarity
@@ -54,7 +53,6 @@ function [floorx,floory] = getNoiseFloor(pos_all,neg_all,N,I,K,Fs)
         end
         kfloor(k,:) = sum(nsum)/I;
         k
-        toc;    
     end
     
     floory = sum(kfloor)/K;
