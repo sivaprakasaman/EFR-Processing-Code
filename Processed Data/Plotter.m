@@ -7,9 +7,9 @@ close all
 
 cond = 3;
 
-load('SAM_all_m1.mat');
-load('SQ25_all_m1.mat');
-load('SQ50_all_m1.mat');
+load('SAM_all_m.mat');
+load('SQ25_all_m.mat');
+load('SQ50_all_m.mat');
 
 trials = SAM_all_means(:,1);
 
@@ -29,4 +29,7 @@ hold off
 legend("SAM","SQ25","SQ50");
 title("SNR (Sum of 6 Harmonic Magnitudes) of 5 'Chins' over number of trials")
 xlabel("Number of trials/polarity/chin")
-ylabel("Sum of SNR (dB)/Magnitude (dB, arbitrary)")
+%ylabel("Sum of SNR (dB)/Magnitude (dB, arbitrary)")
+
+ylabel("Sum First 6 Harmonics (uV)")
+
