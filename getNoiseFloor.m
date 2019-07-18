@@ -19,8 +19,11 @@ function [floorx,floory] = getNoiseFloor(pos_all,neg_all,N,I,K,Fs)
         for i = 1:I
             
             %Draw N random trials/polarity
-            r_odds = randi([1,len],[N,1]);
-            r_evens = randi([1,len],[N,1]);
+%             r_odds = randi([1,len],[N,1]);
+%             r_evens = randi([1,len],[N,1]);
+            
+            r_odds = randsample(len, N, false);
+            r_evens= randsample(len, N, false);
             
             for m = 1:1:N
                 
@@ -31,14 +34,14 @@ function [floorx,floory] = getNoiseFloor(pos_all,neg_all,N,I,K,Fs)
             
             
             for n=1:N
-                w_n = rand([N,1])*2*pi();
-                w_m = rand([N,1])*2*pi();
+                w_n = rand(1)*2*pi();
+                w_m = rand(1)*2*pi();
                 
                 %pos
                 pos = pos_r{n};
                 fft_pos = fft(pos*1e6);
                 fft_pos_r_twoside = abs((fft_pos/L)).*exp(j.*w_n); %twosided FFT
-                fft_pos_r(n,:) = fft_pos_r_twoside(n,1:floor(L/2)+1); %onesided FFT
+                fft_pos_r(n,:) = fft_pos_r_twoside(1:floor(L/2)+1); %onesided FFT
                 %make sure you check sidedeness and account for it!
                 
                 %neg
@@ -46,16 +49,16 @@ function [floorx,floory] = getNoiseFloor(pos_all,neg_all,N,I,K,Fs)
                 fft_neg = fft(neg*1e6);
                 L = length(neg);
                 fft_neg_r_twoside = abs((fft_neg/L)).*exp(j.*w_m); %twosided FFT
-                fft_neg_r(n,:) = fft_neg_r_twoside(n,1:floor(L/2)+1); %onesided FFT          
+                fft_neg_r(n,:) = fft_neg_r_twoside(1:floor(L/2)+1); %onesided FFT          
             end
-            fprintf("(Noise Floor), %d th iteration, %d of %d spectral averages.\n",k,i,I)
-            nsum(i,:) = 20*log10(abs((sum(fft_pos_r)+sum(fft_neg_r))/N)); %removed taking magnitude of a sum of magnitudes?*
+            %fprintf("(Noise Floor), %d th iteration, %d of %d spectral averages.\n",k,i,I)
+            nsum(i,:) = 20*log10(abs((sum(fft_pos_r,1)+sum(fft_neg_r,1))/N)); %removed taking magnitude of a sum of magnitudes?*
         end
-        kfloor(k,:) = sum(nsum)/I;
-        k
+        kfloor(k,:) = sum(nsum,1)/I;
+        
     end
     
-    floory = sum(kfloor)/K;
+    floory = sum(kfloor,1)/K;
     floorx = f;
 end
 

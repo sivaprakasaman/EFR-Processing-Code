@@ -23,13 +23,13 @@ for i = 1:1:len
     ind = ind+2;
 end
 
-fprintf('+/- Polarities Separated\n')
+%fprintf('+/- Polarities Separated\n')
 
 %% Calculate Mean Raw Spectrum
 for i = 1:K_MRS
     
     [f,MRS(i,:)] = getSpectMag(pos,neg,Fs,numtrials);
-    fprintf('(Spectrum) Iteration %d of %d complete.\n',i,K_MRS)
+ %   fprintf('(Spectrum) Iteration %d of %d complete.\n',i,K_MRS)
     
 end
 
@@ -43,6 +43,7 @@ MeanDFT = mean(MRS);
 %numNF = numtrials/5;
 
 [~, floory] = getNoiseFloor(pos,neg,numtrials,I_NF,K_NF,Fs);
+%[~, floory_andrew] = getNoiseFloor_andrew(pos,neg,numtrials,I_NF,K_NF,Fs);
 
 DFT = MeanDFT-floory;
 

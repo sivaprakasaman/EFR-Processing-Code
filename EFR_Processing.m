@@ -1,15 +1,17 @@
 %Take FFRs, process them, and calculate the cummulative sum of Harmonic
 %Magnitudes. Should be generalized enough to run with any trial.
 %Last Updated: Andrew Sivaprakasam, 6/2019
-
+tic
 clear all;
 close all;
 
+
 %% Parameters:
 
-chins = 5; %simulated number of "chins"
+chins = 10; %simulated number of "chins"
 %trials = 50;
-t_array = [20,40,80,160,200];%number of trials conducted/condition/chin. Make this an array if you want to test multiple N
+t_array = [20,40,80,100,120,160,200];%number of trials conducted/condition/chin. Make this an array if you want to test multiple N
+%t_array = 100;
 
 Fs0 = round(48828.125);%sampling rate in
 Fs = 4e3; %resample to
@@ -94,7 +96,7 @@ for ta = 1:length(t_array)
         sq50_DFT_uv = 10.^(sq50_DFT/20);
         
         %% Plotting & Summation
-        
+%         
 %         figure;
 %         subplot(2,1,1)
 %         hold on;
@@ -149,8 +151,8 @@ save('SQ50_all_m.mat','SQ50_all_means')
 % 
 % subplot(2,1,2)
 % plot(SAM_LOCS,SAM_SUM,SQ25_LOCS,SQ25_SUM,SQ50_LOCS,SQ50_SUM,'g')
-% xlabel('Frequency')
+% xlabel('Frequency') 
 % ylabel('Cummulative Sum of Harmonic Magnitudes')
 % xlim([0,2000]);
 
-
+toc

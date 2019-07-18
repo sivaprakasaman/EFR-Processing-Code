@@ -31,5 +31,5 @@ title("SNR (Sum of 6 Harmonic Magnitudes) of 5 'Chins' over number of trials")
 xlabel("Number of trials/polarity/chin")
 %ylabel("Sum of SNR (dB)/Magnitude (dB, arbitrary)")
 
-ylabel("Sum First 6 Harmonics (uV)")
+ylabel("Sum of First 6 Harmonics (uV)")
 
