@@ -27,7 +27,7 @@ hold on
     
 hold off
 legend("SAM","SQ25","SQ50");
-title("SNR (Sum of 6 Harmonic Magnitudes) of 5 'Chins' over number of trials")
+title("SNR (Sum of 6 Harmonic Magnitudes) of 10 bootstraps over number of trials")
 xlabel("Number of trials/polarity/chin")
 %ylabel("Sum of SNR (dB)/Magnitude (dB, arbitrary)")
 

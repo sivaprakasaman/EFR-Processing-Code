@@ -1,6 +1,6 @@
 %Take FFRs, process them, and calculate the cummulative sum of Harmonic
 %Magnitudes. Should be generalized enough to run with any trial.
-%Last Updated: Andrew Sivaprakasam, 6/2019
+%Last Updated: Andrew Sivaprakasam, 7/2019
 tic
 clear all;
 close all;
@@ -8,10 +8,10 @@ close all;
 
 %% Parameters:
 
-chins = 10; %simulated number of "chins"
+chins = 1; %simulated number of "chins"
 %trials = 50;
-t_array = [20,40,80,100,120,160,200];%number of trials conducted/condition/chin. Make this an array if you want to test multiple N
-%t_array = 100;
+%t_array = [20,40,80,100,120,160,200];%number of trials conducted/condition/chin. Make this an array if you want to test multiple N
+t_array = 100;
 
 Fs0 = round(48828.125);%sampling rate in
 Fs = 4e3; %resample to
