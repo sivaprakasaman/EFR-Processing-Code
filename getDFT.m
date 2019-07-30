@@ -1,4 +1,4 @@
-function [f,DFT] = getDFT(tot,collected,window,Fs,Fs0,gain,K_MRS,K_NF,I_NF)
+function [f,DFT,PLV] = getDFT(tot,collected,window,Fs,Fs0,gain,K_MRS,K_NF,I_NF)
 %getDFT - Returns f - frequency, and mean DFT with noise floor removed.
 %   Assumtions: 
 %   -Pull 1/5th of total trials to look at and average 
@@ -28,12 +28,13 @@ end
 %% Calculate Mean Raw Spectrum
 for i = 1:K_MRS
     
-    [f,MRS(i,:)] = getSpectMag(pos,neg,Fs,numtrials);
+    [f,MRS(i,:),PLV(i,:)] = getSpectMag(pos,neg,Fs,numtrials); 
  %   fprintf('(Spectrum) Iteration %d of %d complete.\n',i,K_MRS)
     
 end
 
 MeanDFT = mean(MRS);
+PLV = mean(PLV);
 
 %plot(f,MeanDFT)
 

@@ -7,9 +7,9 @@ close all
 
 cond = 3;
 
-load('SAM_all_m.mat');
-load('SQ25_all_m.mat');
-load('SQ50_all_m.mat');
+load('SAM_all_m_AS.mat');
+load('SQ25_all_m_AS.mat');
+load('SQ50_all_m_AS.mat');
 
 trials = SAM_all_means(:,1);
 
