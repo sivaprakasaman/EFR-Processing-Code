@@ -5,7 +5,7 @@ close all
 
 %% Import data:
 
-PLV = 1; %if 1, plot PLV, if 0, plot MAG
+PLV = 0; %if 1, plot PLV, if 0, plot MAG
 
 
 if PLV == 0
@@ -19,9 +19,9 @@ if PLV == 0
     means = [SAM_MAG_all_means(:,2),SQ25_MAG_all_means(:,2),SQ50_MAG_all_means(:,2)];
     stds = [SAM_MAG_all_means(:,3),SQ25_MAG_all_means(:,3),SQ50_MAG_all_means(:,3)];
     
-    ti = "MAG - Sum of 6 Harmonic MAGs, 10 Bootstraps";
-    yl = "Sum of First 6 Harmonics (uV)";
-
+    yl = "MAG - Sum of 6 Harmonic MAG S, 10 Bootstraps";
+    ti = "SNR (Sum of 6 Harmonic Magnitudes) of 10 bootstraps over number of trials";
+    
 else
    
     load('SAM_PLV_all_m.mat');
@@ -35,7 +35,7 @@ else
     
       
     ti = "PLV - Sum of 6 Harmonic PLVs, 10 Bootstraps";
-    yl = "Sum of First 6 PLVs";
+    yl = "Sum of First 6 Harmonics (uV)";
 
 end
 

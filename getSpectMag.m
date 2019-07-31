@@ -51,16 +51,16 @@ sum_all = sum_pos+sum_neg;
 L = length(sum_all);
 
 P2 = 20*log10((abs(sum_all/(L*numtrials)))); %Taking the average numtrials*2??
-P1 = P2(1:L/2+1);
+P1 = P2(1:floor(L/2)+1);
 
 f = Fs*(0:(L/2))/L;
 
 
 %% Calculate PLV
-pos_phase = angle(pos_fft(1:L/2+1,:));
+pos_phase = angle(pos_fft(1:floor(L/2)+1,:));
 pos_vector = sum(exp(1i*pos_phase),2);
 
-neg_phase = angle(neg_fft(1:L/2+1,:));
+neg_phase = angle(neg_fft(1:floor(L/2)+1,:));
 neg_vector = sum(exp(1i*neg_phase),2);
 
 PLV = abs(pos_vector+neg_vector)/(numtrials*2);%maybe times2?
