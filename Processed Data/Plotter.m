@@ -5,7 +5,7 @@ close all
 
 %% Import data:
 
-PLV = 1; %if 1, plot PLV, if 0, plot MAG
+PLV = 0; %if 1, plot PLV, if 0, plot MAG
 
 
 if PLV == 0
@@ -14,10 +14,16 @@ if PLV == 0
     load('SQ25_MAG_all_m.mat');
     load('SQ50_MAG_all_m.mat');
     
-    trials = SAM_all_means(:,1);
+    trials = SAM_MAG_all_means(:,1);
     
     means = [SAM_MAG_all_means(:,2),SQ25_MAG_all_means(:,2),SQ50_MAG_all_means(:,2)];
     stds = [SAM_MAG_all_means(:,3),SQ25_MAG_all_means(:,3),SQ50_MAG_all_means(:,3)];
+
+
+%     means = [SAM_all_means(:,2),SQ25_all_means(:,2),SQ50_all_means(:,2)];
+%     stds = [SAM_all_means(:,3),SQ25_all_means(:,3),SQ50_all_means(:,3)];
+
+
     
     ti = "MAG - Sum of 6 Harmonic MAGs, 10 Bootstraps";
     yl = "Sum of First 6 Harmonics (uV)";
@@ -53,6 +59,6 @@ hold on
 hold off
 legend("SAM","SQ25","SQ50");
 title(ti)
-xlabel("Number of trials/polarity/chin")
+xlabel("Number of trials/polarity/subject")
 ylabel(yl)
 

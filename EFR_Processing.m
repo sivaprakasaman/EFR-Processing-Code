@@ -11,21 +11,25 @@ isHuman = 0; %MAKE SURE THIS IS 1 for Human or 0 for Chin
 
 subject = "Q379";
 
-bstraps = 10; %simulated number of "chins"
-t_array = [20,40,80,100,120,140];%number of trials conducted/condition/chin. Make this an array if you want to test multiple N
-%t_array = 100;
+bstraps = 1; %simulated number of "chins"
+%t_array = [20,40,80,100,120,140];%number of trials conducted/condition/chin. Make this an array if you want to test multiple N
+t_array = 100;
 
-Fs = 4e3; %resample to
-F0 = 100; %Fundamental freq in Hz
+%Sampling
+Fs0_Human = 4e3; %if subject is Human
+Fs0_Chin = round(48828.125); %if subject is a Chin
+
+Fs = 4e3; %What you want to downsample to
+F0 = 100; %Fundamental freq of interest in Hz
 
 iterations = 100;
 window = [0.1,1.3];
-gain = 20e3; %make this parametric at some point
+gain = 20e3; %Gain (doesn't really matter since looking at SNR & PLV, used for magnitude accuracy)
 %gain = 1;
 
-K_MRS = 100;
-K_NF = 10;
-I_NF = 100;
+K_MRS = 100; %number of distributions to average spectra and PLVs over
+K_NF = 10; %number of iterations to average noise floor distributions over (outer average)
+I_NF = 100; %number of distributions to average noise floor over (inner average)
 
 harmonics = 6;
 %% Load Files:
@@ -119,33 +123,33 @@ for ta = 1:length(t_array)
         
         %% Plotting & Summation
 %         
-%         MAG = figure;
-%         subplot(2,1,1)
-%         hold on;
-%         plot(SAM_f,SAM_DFT_uv)
-%         plot(sq25_f,sq25_DFT_uv)
-%         plot(sq50_f,sq50_DFT_uv,'g')
-%         title('DFT with Noise Floor removed')
-%         %ylabel('SNR (dB)/Magnitude (dB, arbitrary)')
-%         ylabel('SNR (uV)')
-%         xlabel('Frequency')
-%         xlim([0,2e3])
-%         ylim([0,max(SAM_DFT_uv)+5])
-%         
-%         
-%         %PLV Figure:
-%         PLV = figure;
-%         subplot(2,1,1)
-%         hold on;
-%         plot(SAM_f,SAM_PLV)
-%         plot(sq25_f,sq25_PLV)
-%         plot(sq50_f,sq50_PLV,'g')
-%         title('PLV of Multiple Conditions')
-%         %ylabel('SNR (dB)/Magnitude (dB, arbitrary)')
-%         ylabel('PLV')
-%         xlabel('Frequency')
-%         xlim([0,2e3])
-%         ylim([0,1])
+        MAG = figure;
+        subplot(2,1,1)
+        hold on;
+        plot(SAM_f,SAM_DFT_uv)
+        plot(sq25_f,sq25_DFT_uv)
+        plot(sq50_f,sq50_DFT_uv,'g')
+        title('DFT with Noise Floor removed')
+        %ylabel('SNR (dB)/Magnitude (dB, arbitrary)')
+        ylabel('SNR (Linear Scale)')
+        xlabel('Frequency')
+        xlim([0,2e3])
+        ylim([0,max(SAM_DFT_uv)+5])
+        
+        
+        %PLV Figure:
+        PLV = figure;
+        subplot(2,1,1)
+        hold on;
+        plot(SAM_f,SAM_PLV)
+        plot(sq25_f,sq25_PLV)
+        plot(sq50_f,sq50_PLV,'g')
+        title('PLV of Multiple Conditions')
+        %ylabel('SNR (dB)/Magnitude (dB, arbitrary)')
+        ylabel('PLV')
+        xlabel('Frequency')
+        xlim([0,2e3])
+        ylim([0,1])
         
 %         
         %Get peaks and sum them, look at crossings
@@ -191,13 +195,13 @@ end
 
 %% Saving Data
 
-SAM_all_means = [t_array',SAM_MAG_MEAN',SAM_MAG_std'];
-SQ25_all_means = [t_array',SQ25_MAG_MEAN',SQ25_MAG_std'];
-SQ50_all_means = [t_array',SQ50_MAG_MEAN',SQ50_MAG_std'];
+SAM_MAG_all_means = [t_array',SAM_MAG_MEAN',SAM_MAG_std'];
+SQ25_MAG_all_means = [t_array',SQ25_MAG_MEAN',SQ25_MAG_std'];
+SQ50_MAG_all_means = [t_array',SQ50_MAG_MEAN',SQ50_MAG_std'];
 
-save('SAM_MAG_all_m.mat','SAM_all_means')
-save('SQ25_MAG_all_m.mat','SQ25_all_means')
-save('SQ50_MAG_all_m.mat','SQ50_all_means')
+save('SAM_MAG_all_m.mat','SAM_MAG_all_means')
+save('SQ25_MAG_all_m.mat','SQ25_MAG_all_means')
+save('SQ50_MAG_all_m.mat','SQ50_MAG_all_means')
 
 SAM_PLV_all_means = [t_array',SAM_PLV_MEAN',SAM_PLV_std'];
 SQ25_PLV_all_means = [t_array',SQ25_PLV_MEAN',SQ25_PLV_std'];
@@ -207,31 +211,31 @@ save('SAM_PLV_all_m.mat','SAM_PLV_all_means')
 save('SQ25_PLV_all_m.mat','SQ25_PLV_all_means')
 save('SQ50_PLV_all_m.mat','SQ50_PLV_all_means')
 
-% figure(MAG)
-% subplot(2,1,1);
-% hold on;
-% plot(SAM_LOCS,SAM_PKS,'bo',SQ25_LOCS,SQ25_PKS,'ro',SQ50_LOCS,SQ50_PKS,'go')
-% legend('SAM','SQ25','SQ50','SAM','SQ25','SQ50')
-% 
-% subplot(2,1,2)
-% plot(SAM_LOCS,SAM_SUM,SQ25_LOCS,SQ25_SUM,SQ50_LOCS,SQ50_SUM,'g')
-% xlabel('Frequency') 
-% ylabel('Cummulative Sum of Harmonic Magnitudes')
-% xlim([0,2000]);
-% 
-% 
-% 
-% figure(PLV)
-% subplot(2,1,1);
-% hold on;
-% plot(SAMP_LOCS,SAMP_PKS,'bo',SQ25P_LOCS,SQ25P_PKS,'ro',SQ50P_LOCS,SQ50P_PKS,'go')
-% legend('SAM','SQ25','SQ50','SAM','SQ25','SQ50')
-% 
-% subplot(2,1,2)
-% plot(SAMP_LOCS,SAMP_SUM,SQ25P_LOCS,SQ25P_SUM,SQ50P_LOCS,SQ50P_SUM,'g')
-% xlabel('Frequency') 
-% ylabel('Cummulative Sum of PLV Peaks')
-% xlim([0,2000]);
+figure(MAG)
+subplot(2,1,1);
+hold on;
+plot(SAM_LOCS,SAM_PKS,'bo',SQ25_LOCS,SQ25_PKS,'ro',SQ50_LOCS,SQ50_PKS,'go')
+legend('SAM','SQ25','SQ50','SAM','SQ25','SQ50')
+
+subplot(2,1,2)
+plot(SAM_LOCS,SAM_SUM,SQ25_LOCS,SQ25_SUM,SQ50_LOCS,SQ50_SUM,'g')
+xlabel('Frequency') 
+ylabel('Cummulative Sum of Harmonic Magnitudes')
+xlim([0,2000]);
+
+
+
+figure(PLV)
+subplot(2,1,1);
+hold on;
+plot(SAMP_LOCS,SAMP_PKS,'bo',SQ25P_LOCS,SQ25P_PKS,'ro',SQ50P_LOCS,SQ50P_PKS,'go')
+legend('SAM','SQ25','SQ50','SAM','SQ25','SQ50')
+
+subplot(2,1,2)
+plot(SAMP_LOCS,SAMP_SUM,SQ25P_LOCS,SQ25P_SUM,SQ50P_LOCS,SQ50P_SUM,'g')
+xlabel('Frequency') 
+ylabel('Cummulative Sum of PLV Peaks')
+xlim([0,2000]);
 
 
 toc
