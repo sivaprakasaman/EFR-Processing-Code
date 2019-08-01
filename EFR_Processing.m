@@ -12,7 +12,7 @@ isHuman = 0; %MAKE SURE THIS IS 1 for Human or 0 for Chin
 subject = "Q379";
 
 bstraps = 1; %simulated number of "chins"
-%t_array = [20,40,80,100,120,140];%number of trials conducted/condition/chin. Make this an array if you want to test multiple N
+%t_array = [20,40,80,100,120,140];%number of trials conducted/polarity/subject. Make this an array if you want to test multiple N
 t_array = 100;
 
 %Sampling
