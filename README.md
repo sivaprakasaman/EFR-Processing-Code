@@ -4,7 +4,7 @@ The following scripts/methods were designed to calculate and analyze Phase Locki
 
 ## Pre-Processing
 
-The data that can be loaded into the main script, '<EFR_Processing.m>', must be in a *.mat* format. Chinchilla data from NEL should be directly compatible, so long as it is a *.mat*. 
+The data that can be loaded into the main script, `<EFR_Processing.m>`, must be in a *.mat* format. Chinchilla data from NEL should be directly compatible, so long as it is a *.mat*. 
 
 However,   
 
