@@ -234,7 +234,7 @@ DFT = MeanDFT-floory;
 
 ## Plotting means and SD as a function of # of trials collected using `Plotter.m`
 
-`Plotter.m`, found in [Processed Data](Processed-Data) was made in order to help justify the number of trials we collected per subject. The ideal number of trials is the lowest number where the harmonic sums of the 3 stimuli stop overlapping:
+`Plotter.m`, found in [Processed Data](Processed%20Data), was made in order to help justify the number of trials we collected per subject. The ideal number of trials is the lowest number where the harmonic sums of the 3 stimuli stop overlapping:
 
 ![Figure 4](Figures/Sums.png) 
 
