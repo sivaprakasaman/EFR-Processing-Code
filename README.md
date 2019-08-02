@@ -76,8 +76,8 @@ I_NF = 100; %number of distributions to average noise floor over (inner average)
 
 harmonics = 6; %How many harmonics to sum
 ```
-### **Parameters of note:**
-The appendix of the paper helps understand these parameters.
+### **Particular parameters of note:**
+*The appendix of the paper helps understand some of these parameters.*
 
 `bstraps` - how many times to run each element in `t_array` used to simulate multiple subjects and determine a minimum number of trials
 
@@ -87,7 +87,7 @@ The appendix of the paper helps understand these parameters.
 
 `K_MRS`- how many distributions of a dataset with `t_array[i]` trials (400 in the paper)
 
-`K_NF` and `I_NF`- how many iterations and distributions, respectively of the spectral noise floor estimate to compute (1000 and 100 in paper, but 10 and 100 seemed to also be sufficient). **Significantly increases runtime.** 
+`K_NF` and `I_NF`- how many iterations and distributions, respectively, of the spectral noise floor estimate to compute (1000 and 100 in paper, but 10 and 100 seemed to also be sufficient). **Significantly increases runtime.** 
 
 
 ### **Figures:**
