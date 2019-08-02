@@ -5,7 +5,7 @@ The following scripts/methods were designed to calculate and analyze Phase Locki
 ![Figure 1](Figures/stimulus_waveform.jpg)
 ***Figure 1.*** *Waveforms of tested stimuli. You can listen to them in [Sounds](Sounds).* 
 
-The mathematic equations that were followed can be found in the appendix of a [paper](https://www.ncbi.nlm.nih.gov/pmc/articles/PMC3724813/#c29) by Li Zhu, [Hari Bharadwaj](https://github.com/haribharadwaj), Jing Xia, and Barbara Shinn-Cunningham.
+The mathematic equations that were followed can be found in the appendix of a [paper](https://www.ncbi.nlm.nih.gov/pmc/articles/PMC3724813) by Li Zhu, [Hari Bharadwaj](https://github.com/haribharadwaj), Jing Xia, and Barbara Shinn-Cunningham.
 
 Human data pre-processing was done in [MNE](https://martinos.org/mne/stable/index.html) and also used functions found in the [ANLffr](https://github.com/SNAPsoftware/ANLffr) package.
 
