@@ -47,7 +47,7 @@ bdf2mat(froot,fs,Fs_new,hpf,t_stim,topchans,trial_name)
 
 `EFR_Processing.m` is an implementation of multiple methods, detailed later. It allows the user to bootstrap data using a single subject, and also calculate means and standard deviations of summation of harmonic magnitudes and PLVs related to a particular fundamental frequency, F0.
 
-**Parameters**:
+### **Parameters**:
 
 ```
 isHuman = 0; %MAKE SURE THIS IS 1 for Human or 0 for Chin
@@ -76,7 +76,7 @@ I_NF = 100; %number of distributions to average noise floor over (inner average)
 
 harmonics = 6; %How many harmonics to sum
 ```
-**Parameters of note:**
+### **Parameters of note:**
 The appendix of the paper helps understand these parameters.
 
 `bstraps` - how many times to run each element in `t_array` used to simulate multiple subjects and determine a minimum number of trials
@@ -166,7 +166,7 @@ continued a few lines later...
 
 `getDFT` returns a frequency vector, the DFT (with noise floor subtracted), and PLV of a given set of trials. 
 
-### Implementation (from `EFR_Processing.m`:
+### Example (from `EFR_Processing.m`):
 
 ```  
         [SAM_f,SAM_DFT,SAM_PLV] = getDFT(SAM_tot,trials,window,Fs,Fs0,gain,K_MRS,K_NF,I_NF);
