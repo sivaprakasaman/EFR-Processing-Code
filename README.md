@@ -158,7 +158,7 @@ The following two figures may be generated in `EFR_Processing.m` if these lines 
 
 **WARNING: Uncommenting these and running with `bstraps`>1 & `t_array` with length>1 will result in an abomination of figures.**
 
-![Figure 1](Figures/PLV_MAG_Both.jpg)
+![Figure 1](Figures/PLV_MAG_Both.JPG)
 
 ### Using `getDFT.m`
 
