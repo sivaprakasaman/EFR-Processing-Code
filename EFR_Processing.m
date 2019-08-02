@@ -123,33 +123,33 @@ for ta = 1:length(t_array)
         
         %% Plotting & Summation
 %         
-        MAG = figure;
-        subplot(2,1,1)
-        hold on;
-        plot(SAM_f,SAM_DFT_uv)
-        plot(sq25_f,sq25_DFT_uv)
-        plot(sq50_f,sq50_DFT_uv,'g')
-        title('DFT with Noise Floor removed')
-        %ylabel('SNR (dB)/Magnitude (dB, arbitrary)')
-        ylabel('SNR (Linear Scale)')
-        xlabel('Frequency')
-        xlim([0,2e3])
-        ylim([0,max(SAM_DFT_uv)+5])
-        
-        
-        %PLV Figure:
-        PLV = figure;
-        subplot(2,1,1)
-        hold on;
-        plot(SAM_f,SAM_PLV)
-        plot(sq25_f,sq25_PLV)
-        plot(sq50_f,sq50_PLV,'g')
-        title('PLV of Multiple Conditions')
-        %ylabel('SNR (dB)/Magnitude (dB, arbitrary)')
-        ylabel('PLV')
-        xlabel('Frequency')
-        xlim([0,2e3])
-        ylim([0,1])
+%         MAG = figure;
+%         subplot(2,1,1)
+%         hold on;
+%         plot(SAM_f,SAM_DFT_uv)
+%         plot(sq25_f,sq25_DFT_uv)
+%         plot(sq50_f,sq50_DFT_uv,'g')
+%         title('DFT with Noise Floor removed')
+%         %ylabel('SNR (dB)/Magnitude (dB, arbitrary)')
+%         ylabel('SNR (Linear Scale)')
+%         xlabel('Frequency')
+%         xlim([0,2e3])
+%         ylim([0,max(SAM_DFT_uv)+5])
+%         
+%         
+%         %PLV Figure:
+%         PLV = figure;
+%         subplot(2,1,1)
+%         hold on;
+%         plot(SAM_f,SAM_PLV)
+%         plot(sq25_f,sq25_PLV)
+%         plot(sq50_f,sq50_PLV,'g')
+%         title('PLV of Multiple Conditions')
+%         %ylabel('SNR (dB)/Magnitude (dB, arbitrary)')
+%         ylabel('PLV')
+%         xlabel('Frequency')
+%         xlim([0,2e3])
+%         ylim([0,1])
         
 %         
         %Get peaks and sum them, look at crossings
@@ -211,31 +211,31 @@ save('SAM_PLV_all_m.mat','SAM_PLV_all_means')
 save('SQ25_PLV_all_m.mat','SQ25_PLV_all_means')
 save('SQ50_PLV_all_m.mat','SQ50_PLV_all_means')
 
-figure(MAG)
-subplot(2,1,1);
-hold on;
-plot(SAM_LOCS,SAM_PKS,'bo',SQ25_LOCS,SQ25_PKS,'ro',SQ50_LOCS,SQ50_PKS,'go')
-legend('SAM','SQ25','SQ50','SAM','SQ25','SQ50')
-
-subplot(2,1,2)
-plot(SAM_LOCS,SAM_SUM,SQ25_LOCS,SQ25_SUM,SQ50_LOCS,SQ50_SUM,'g')
-xlabel('Frequency') 
-ylabel('Cummulative Sum of Harmonic Magnitudes')
-xlim([0,2000]);
-
-
-
-figure(PLV)
-subplot(2,1,1);
-hold on;
-plot(SAMP_LOCS,SAMP_PKS,'bo',SQ25P_LOCS,SQ25P_PKS,'ro',SQ50P_LOCS,SQ50P_PKS,'go')
-legend('SAM','SQ25','SQ50','SAM','SQ25','SQ50')
-
-subplot(2,1,2)
-plot(SAMP_LOCS,SAMP_SUM,SQ25P_LOCS,SQ25P_SUM,SQ50P_LOCS,SQ50P_SUM,'g')
-xlabel('Frequency') 
-ylabel('Cummulative Sum of PLV Peaks')
-xlim([0,2000]);
+% figure(MAG)
+% subplot(2,1,1);
+% hold on;
+% plot(SAM_LOCS,SAM_PKS,'bo',SQ25_LOCS,SQ25_PKS,'ro',SQ50_LOCS,SQ50_PKS,'go')
+% legend('SAM','SQ25','SQ50','SAM','SQ25','SQ50')
+% 
+% subplot(2,1,2)
+% plot(SAM_LOCS,SAM_SUM,SQ25_LOCS,SQ25_SUM,SQ50_LOCS,SQ50_SUM,'g')
+% xlabel('Frequency') 
+% ylabel('Cummulative Sum of Harmonic Magnitudes')
+% xlim([0,2000]);
+% 
+% 
+% 
+% figure(PLV)
+% subplot(2,1,1);
+% hold on;
+% plot(SAMP_LOCS,SAMP_PKS,'bo',SQ25P_LOCS,SQ25P_PKS,'ro',SQ50P_LOCS,SQ50P_PKS,'go')
+% legend('SAM','SQ25','SQ50','SAM','SQ25','SQ50')
+% 
+% subplot(2,1,2)
+% plot(SAMP_LOCS,SAMP_SUM,SQ25P_LOCS,SQ25P_SUM,SQ50P_LOCS,SQ50P_SUM,'g')
+% xlabel('Frequency') 
+% ylabel('Cummulative Sum of PLV Peaks')
+% xlim([0,2000]);
 
 
 toc
