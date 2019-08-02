@@ -1,8 +1,8 @@
 # EFR Processing - Andrew Sivaprakasam, Summer 2019
 
-Contact: [Email](asivapr@purdue.edu)
+Contact: [Email](mailto:asivapr@purdue.edu)
 
-The following scripts/methods were designed to calculate and analyze Phase Locking Values (PLVs) and spectral magnitudes of _**both**_ human and chinchilla Envelope Following Responses (EFRs). 
+The following scripts/methods were designed to calculate and analyze Phase Locking Values (PLVs) and spectral magnitudes of _**both**_ human and chinchilla Envelope Following Responses (EFRs). The original purpose of these scripts was to investigate the ability of three auditory stimuli: Sinusoidal Amplitude Modulation (SAM), Square Envelope with 25% duty cycle (SQ25), and Square Envelope with 50% percent duty cycle (SQ50), to discriminate Synaptopathy from normal hearing. 
 
 The math equations that were used can be found in the appendix of a [paper](https://www.ncbi.nlm.nih.gov/pmc/articles/PMC3724813/#c29) by Li Zhu, [Hari Bharadwaj](https://github.com/haribharadwaj), Jing Xia, and Barbara Shinn-Cunningham.
 
@@ -128,37 +128,37 @@ The following two figures may be generated in `EFR_Processing.m` if these lines 
 
 
 ```
-figure(MAG)
-subplot(2,1,1);
-hold on;
-plot(SAM_LOCS,SAM_PKS,'bo',SQ25_LOCS,SQ25_PKS,'ro',SQ50_LOCS,SQ50_PKS,'go')
-legend('SAM','SQ25','SQ50','SAM','SQ25','SQ50')
+	figure(MAG)
+	subplot(2,1,1);
+	hold on;
+	plot(SAM_LOCS,SAM_PKS,'bo',SQ25_LOCS,SQ25_PKS,'ro',SQ50_LOCS,SQ50_PKS,'go')
+	legend('SAM','SQ25','SQ50','SAM','SQ25','SQ50')
 
-subplot(2,1,2)
-plot(SAM_LOCS,SAM_SUM,SQ25_LOCS,SQ25_SUM,SQ50_LOCS,SQ50_SUM,'g')
-xlabel('Frequency') 
-ylabel('Cummulative Sum of Harmonic Magnitudes')
-xlim([0,2000]);
+	subplot(2,1,2)
+	plot(SAM_LOCS,SAM_SUM,SQ25_LOCS,SQ25_SUM,SQ50_LOCS,SQ50_SUM,'g')
+	xlabel('Frequency') 
+	ylabel('Cummulative Sum of Harmonic Magnitudes')
+	xlim([0,2000]);
 
 
 
-figure(PLV)
-subplot(2,1,1);
-hold on;
-plot(SAMP_LOCS,SAMP_PKS,'bo',SQ25P_LOCS,SQ25P_PKS,'ro',SQ50P_LOCS,SQ50P_PKS,'go')
-legend('SAM','SQ25','SQ50','SAM','SQ25','SQ50')
+	figure(PLV)
+	subplot(2,1,1);
+	hold on;
+	plot(SAMP_LOCS,SAMP_PKS,'bo',SQ25P_LOCS,SQ25P_PKS,'ro',SQ50P_LOCS,SQ50P_PKS,'go')
+	legend('SAM','SQ25','SQ50','SAM','SQ25','SQ50')
 
-subplot(2,1,2)
-plot(SAMP_LOCS,SAMP_SUM,SQ25P_LOCS,SQ25P_SUM,SQ50P_LOCS,SQ50P_SUM,'g')
-xlabel('Frequency') 
-ylabel('Cummulative Sum of PLV Peaks')
-xlim([0,2000]);
+	subplot(2,1,2)
+	plot(SAMP_LOCS,SAMP_SUM,SQ25P_LOCS,SQ25P_SUM,SQ50P_LOCS,SQ50P_SUM,'g')
+	xlabel('Frequency') 
+	ylabel('Cummulative Sum of PLV Peaks')
+	xlim([0,2000]);
 
 ```
 
-**WARNING: Uncommenting these and running with `bstraps`>1 & `t_array` with length>1 will result in an abomination of figures**
+**WARNING: Uncommenting these and running with `bstraps`>1 & `t_array` with length>1 will result in an abomination of figures.**
 
-
+![Figure 1](Figures/PLV_MAG_Both.jpg)
 
 ### Using `getDFT.m`
 
