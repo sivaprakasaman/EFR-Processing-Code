@@ -7,13 +7,13 @@ close all;
 
 %% Parameters:
 
-isHuman = 0; %MAKE SURE THIS IS 1 for Human or 0 for Chin
+isHuman = 1; %MAKE SURE THIS IS 1 for Human or 0 for Chin
 
-subject = "Q379";
+subject = "AS";
 
-bstraps = 1; %simulated number of "chins"
-%t_array = [20,40,80,100,120,140];%number of trials conducted/polarity/subject. Make this an array if you want to test multiple N
-t_array = 100;
+bstraps = 10; %simulated number of "chins"
+t_array = [20,40,80,100,120,140];%number of trials conducted/polarity/subject. Make this an array if you want to test multiple N
+%t_array = 140;
 
 %Sampling
 Fs0_Human = 4e3; %if subject is Human
@@ -94,7 +94,10 @@ for ta = 1:length(t_array)
         r_odds = odv(randi(length(odv),2,trials))';
         r_evens = evv(randi(length(evv),2,trials))';
         
-        
+        SAM_tot = cell(1,trials);
+        sq25_tot = cell(1,trials);
+        sq50_tot = cell(1,trials);
+
         for t = 1:2:trials
             
             %pos
