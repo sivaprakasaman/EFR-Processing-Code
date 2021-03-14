@@ -1,10 +1,10 @@
-function [f,DFT,PLV] = getDFT(tot,collected,window,Fs,Fs0,gain,K_MRS,K_NF,I_NF)
+function [f,DFT,PLV, floory] = getDFT(tot,collected,window,Fs,Fs0,gain,K_MRS, NF_iters)
 %getDFT - Returns f - frequency, and mean DFT with noise floor removed.
 %   Assumtions: 
 %   -Pull 1/5th of total trials to look at and average 
 
 len = length(tot)/2; 
-numtrials = collected/5; %Number of trials to pull from/polarity, 1/5 of total collected
+numtrials = round(collected/5); %Number of trials to pull from/polarity, 1/5 of total collected
 
 %% Separate out the +/- polarities
 
@@ -44,11 +44,7 @@ PLV = mean(PLV);
 
 %% Calculate Noise Floor
 
-%hard-coded rule to take 1/5th of collected trials
-%numNF = numtrials/5;
-
-[~, floory] = getNoiseFloor(pos,neg,numtrials,I_NF,K_NF,Fs);
-%[~, floory_andrew] = getNoiseFloor_andrew(pos,neg,numtrials,I_NF,K_NF,Fs);
+[~, floory] = getNoiseFloor(pos,neg,Fs,NF_iters);
 
 DFT = MeanDFT-floory;
 

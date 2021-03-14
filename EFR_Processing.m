@@ -13,7 +13,7 @@ subject = "AS";
 
 bstraps = 10; %simulated number of "chins"
 t_array = [20,40,80,100,120,140];%number of trials conducted/polarity/subject. Make this an array if you want to test multiple N
-%t_array = 140;
+%t_array = 280;
 
 %Sampling
 Fs0_Human = 4e3; %if subject is Human
@@ -28,10 +28,9 @@ gain = 20e3; %Gain (doesn't really matter since looking at SNR & PLV, used for m
 %gain = 1;
 
 K_MRS = 100; %number of distributions to average spectra and PLVs over
-K_NF = 10; %number of iterations to average noise floor distributions over (outer average)
-I_NF = 100; %number of distributions to average noise floor over (inner average)
+NF_iters = 100; %number of distributions to average noise floor over (inner average)
 
-harmonics = 6;
+harmonics = 5;
 %% Load Files:
 
 if(isHuman)
@@ -114,9 +113,9 @@ for ta = 1:length(t_array)
         
         %% Calculate the DFT for Responses
         
-        [SAM_f,SAM_DFT,SAM_PLV] = getDFT(SAM_tot,trials,window,Fs,Fs0,gain,K_MRS,K_NF,I_NF);
-        [sq25_f,sq25_DFT,sq25_PLV] = getDFT(sq25_tot,trials,window,Fs,Fs0,gain,K_MRS,K_NF,I_NF);
-        [sq50_f,sq50_DFT,sq50_PLV] = getDFT(sq50_tot,trials,window,Fs,Fs0,gain,K_MRS,K_NF,I_NF);
+        [SAM_f,SAM_DFT,SAM_PLV] = getDFT(SAM_tot,trials,window,Fs,Fs0,gain,K_MRS,NF_iters);
+        [sq25_f,sq25_DFT,sq25_PLV] = getDFT(sq25_tot,trials,window,Fs,Fs0,gain,K_MRS,NF_iters);
+        [sq50_f,sq50_DFT,sq50_PLV] = getDFT(sq50_tot,trials,window,Fs,Fs0,gain,K_MRS,NF_iters);
         
         %% Converting back to linear
         

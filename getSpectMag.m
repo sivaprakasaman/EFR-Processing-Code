@@ -46,11 +46,11 @@ neg_fft = fft(neg_r*1e6);
 sum_pos = sum(pos_fft,2);
 sum_neg = sum(neg_fft,2);
 
-sum_all = sum_pos+sum_neg;
+sum_all = (sum_pos+sum_neg)/(2*numtrials);
 
 L = length(sum_all);
 
-P2 = 20*log10((abs(sum_all/(L*numtrials)))); %Taking the average numtrials*2??
+P2 = 20*log10((abs(sum_all/(L)))); %Taking the average numtrials*2??
 P1 = P2(1:floor(L/2)+1);
 
 f = Fs*(0:(L/2))/L;

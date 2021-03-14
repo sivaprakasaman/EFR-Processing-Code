@@ -5,7 +5,7 @@ close all
 
 %% Import data:
 
-PLV = 1; %if 1, plot PLV, if 0, plot MAG
+PLV = 0; %if 1, plot PLV, if 0, plot MAG
 
 
 if PLV == 0
